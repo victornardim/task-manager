@@ -1,0 +1,78 @@
+<ng-template #taskCreate
+    let-modal>
+    <div class="modal-header">
+        <span>
+            Create a new task
+        </span>
+
+        <button type="button"
+            class="btn right close"
+            (click)="closeTaskCreateForm()">x</button>
+    </div>
+
+    <form [formGroup]="taskForm">
+        <div class="modal-body">
+            <label class="label">Title</label>
+            <input ngbAutofocus
+                class="form-control"
+                type="text"
+                formControlName="title"
+                placeholder="Title"
+                [ngClass]="{'invalid-form-input': title.errors}" />
+            <div class="invalid-form-explain"
+                *ngIf="title.errors?.required || title.errors?.justWhitespace">
+                Title is required.
+            </div>
+
+            <label class="label mt-3">Description</label>
+            <input class="form-control"
+                type="text"
+                formControlName="description"
+                placeholder="Description" />
+
+            <label class="label mt-3">When it gonna end?</label>
+            <input formControlName="end"
+                class="form-control"
+                placeholder="End"
+                type="datetime-local"
+                [ngClass]="{'invalid-form-input': end.errors}" />
+            <div class="invalid-form-explain"
+                *ngIf="end.errors?.required">
+                Task end is required.
+            </div>
+            <div class="invalid-form-explain"
+                *ngIf="end.errors?.dateInThePast">
+                Task end can't be in the past.
+            </div>
+        </div>
+
+        <div class="modal-footer">
+            <button class="btn btn-md btn-success"
+                type="button"
+                [disabled]="taskForm.invalid"
+                (click)="createTask()">Create</button>
+
+            <button class="btn btn-md btn-danger"
+                type="button"
+                (click)="closeTaskCreateForm()">Cancel</button>
+        </div>
+    </form>
+</ng-template>
+
+<div class="border-bottom"
+    style="height: 40px">
+    <h4 class="pb-2 float-left">
+        Tasks
+    </h4>
+    <button autofocus
+        class="btn btn-sm btn-primary float-right"
+        type="button"
+        (click)="openTaskCreateForm(taskCreate)">Create</button>
+</div>
+
+<div *ngFor="let task of tasks"
+    class="m-3">
+    <tm-task [task]="task"
+        (cancel)="cancelTask($event)"
+        (complete)="completeTask($event)"></tm-task>
+</div>

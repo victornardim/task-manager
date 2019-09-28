@@ -1,0 +1,15 @@
+<div class="border-bottom mb-2"
+    style="height: 40px">
+    <h4 class="pb-2 float-left">
+        Logs
+    </h4>
+    <button class="btn btn-sm btn-danger float-right"
+        type="button"
+        (click)="clearAll()"
+        [disabled]="!logs?.length">Clear all</button>
+</div>
+
+<p *ngFor="let log of logs">
+    <ngb-alert [type]="log.type"
+        (close)="close(log)">{{log.time.toLocaleString()}} - {{ log.message }}</ngb-alert>
+</p>

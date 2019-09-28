@@ -1,0 +1,21 @@
+/* You can add global styles to this file, and also import other style files */
+.invalid-form-explain {
+    color: #ff6363;
+    font-size: 12px;
+}
+
+.invalid-form-input {
+    border-color: #ff6363;
+}
+
+.title {
+    font-size: 15px;
+}
+
+.subtitle {
+    font-size: 13px;
+}
+
+.label {
+    font-size: 13px;
+}

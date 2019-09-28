@@ -1,0 +1,27 @@
+<div class="row p-2 border">
+    <div class="col-md-12 title text-center text-truncate"
+        [ngbTooltip]="task.title">
+        {{task.title}}
+    </div>
+    <div class="col-md-12 subtitle text-center text-truncate"
+        [ngbTooltip]="task.description">
+        {{task.description}}
+    </div>
+    <div class="col-md-12 subtitle text-center pb-1"
+        [ngbTooltip]="task.getPeriodDisplay()">
+        {{ task.getPeriodDisplay() }}
+    </div>
+    <div class="col-md-12"
+        [ngbTooltip]="task.getProgress()">
+        <ngb-progressbar type="success"
+            [showValue]="true"
+            [value]="task.getProgress()"
+            [max]="100"></ngb-progressbar>
+    </div>
+    <div class="col-md-12 mt-2 text-center">
+        <button class="btn btn-sm btn-danger mr-2"
+            (click)="cancelTask()">Cancel</button>
+        <button class="btn btn-sm btn-success"
+            (click)="completeTask()">Complete</button>
+    </div>
+</div>
