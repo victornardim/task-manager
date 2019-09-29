@@ -3,6 +3,7 @@ import { Task } from '../task/task.model';
 import { Subject, timer, Subscription } from 'rxjs';
 import { LogService } from '../log/log.service';
 import { DatabaseService } from '../shared/services/database.service';
+import { TaskRemoveOperation } from './task-remove-operation.enum';
 
 @Injectable({
     'providedIn': 'root'
@@ -26,7 +27,7 @@ export class ManagerFacade {
         this.tasks = [];
         this.tasksSubject = new Subject();
 
-        this.timerSubscription = timer(1000, 2000)
+        this.timerSubscription = timer(0, 2000)
             .subscribe(() => this.startMonitoringProgress());
 
         this.loadTasks();
@@ -62,7 +63,7 @@ export class ManagerFacade {
     }
 
     destroy() {
-        if (!this.timerSubscription.closed) {
+        if (this.timerSubscription && !this.timerSubscription.closed) {
             this.timerSubscription.unsubscribe();
         }
     }
@@ -94,28 +95,39 @@ export class ManagerFacade {
     }
 
     completeTask(task: Task) {
-        this.logService.success(`'${task.title}' is completed.`);
-        this.removeTask(task);
+        this.removeTask(task, TaskRemoveOperation.COMPLETE);
     }
 
     cancelTask(task: Task) {
-        this.logService.error(`'${task.title}' has been canceled.`);
-        this.removeTask(task);
+        this.removeTask(task, TaskRemoveOperation.CANCEL);
     }
 
-    removeTask(task: Task) {
+    private removeTask(task: Task, operation: TaskRemoveOperation) {
         if (this.isDatabaseReady()) {
             this.databaseService
                 .delete(task)
                 .subscribe(() => {
                     this.tasks.splice(this.tasks.indexOf(task), 1);
                     this.tasksSubject.next(this.tasks);
+                    this.logRemoveTask(task, operation);
                 },
                     error => this.logService.error(error));
         }
     }
 
-    isDatabaseReady(): boolean {
+    private logRemoveTask(task: Task, operation: TaskRemoveOperation) {
+        switch (operation) {
+            case TaskRemoveOperation.COMPLETE:
+                this.logService.success(`'${task.title}' is completed.`);
+                break;
+
+            case TaskRemoveOperation.CANCEL:
+                this.logService.error(`'${task.title}' has been canceled.`);
+                break;
+        }
+    }
+
+    private isDatabaseReady(): boolean {
         if (!this.databaseReady) {
             this.logService.error(`The database isn't ready yet, try again later.`);
         }

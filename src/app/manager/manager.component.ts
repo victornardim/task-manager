@@ -1,11 +1,12 @@
-import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, FormArray, AbstractControl } from '@angular/forms';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ManagerFacade } from './manager.facade';
 import { Task } from '../task/task.model';
 import { Subscription } from 'rxjs';
 import { dateInThePastValidator } from '../shared/validators/date-in-the-past.validator';
 import { justWhitespaceValidator } from '../shared/validators/just-whitespace.validator';
+import { dateIsAbsurdValidator } from '../shared/validators/date-is-absurd.validator';
 
 @Component({
     selector: 'tm-manager',
@@ -17,8 +18,6 @@ export class ManagerComponent implements OnInit, OnDestroy {
 
     tasks: Task[];
     tasksSubscription: Subscription;
-
-    @ViewChild('inputTitle') inputTitle: ElementRef<HTMLInputElement>;
 
     constructor(
         private managerFacade: ManagerFacade,
@@ -36,17 +35,17 @@ export class ManagerComponent implements OnInit, OnDestroy {
     ngOnDestroy(): void {
         this.managerFacade.destroy();
 
-        if (!this.tasksSubscription.closed) {
+        if (this.tasksSubscription && !this.tasksSubscription.closed) {
             this.tasksSubscription.unsubscribe();
         }
     }
 
     formInit() {
         this.taskForm = this.formBuilder.group({
-            'title': ['', [Validators.required, justWhitespaceValidator]],
-            'description': [''],
+            'title': [null, [Validators.required, justWhitespaceValidator]],
+            'description': [null],
             'start': [new Date(), [Validators.required]],
-            'end': ['', [Validators.required, dateInThePastValidator]],
+            'end': [null, [Validators.required, dateInThePastValidator, dateIsAbsurdValidator]],
             'progress': [0]
         });
     }
@@ -106,11 +105,35 @@ export class ManagerComponent implements OnInit, OnDestroy {
         return this.taskForm.controls.title;
     }
 
+    mustShowTitleRequiredError(): boolean {
+        return (this.titleHaveErrors() && (this.title.errors.required || this.title.errors.justWhitespace));
+    }
+
+    titleHaveErrors(): boolean {
+        return (this.title.errors && this.title.touched);
+    }
+
     get description(): AbstractControl {
         return this.taskForm.controls.description;
     }
 
     get end(): AbstractControl {
         return this.taskForm.controls.end;
+    }
+
+    mustShowEndRequiredError(): boolean {
+        return (this.endHaveErrors() && this.end.errors.required);
+    }
+
+    mustShowEndDateInThePastError(): boolean {
+        return (this.endHaveErrors() && this.end.errors.dateInThePast);
+    }
+
+    mustShowEndDateIsAbsurdError(): boolean {
+        return (this.endHaveErrors() && this.end.errors.dateIsAbsurd);
+    }
+
+    endHaveErrors(): boolean {
+        return (this.end.errors && this.end.touched);
     }
 }

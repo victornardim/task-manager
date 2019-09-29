@@ -22,7 +22,7 @@ export class LogComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy() {
-        if (!this.logsSubscription.closed) {
+        if (this.logsSubscription && !this.logsSubscription.closed) {
             this.logsSubscription.unsubscribe();
         }
     }

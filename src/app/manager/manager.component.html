@@ -18,9 +18,9 @@
                 type="text"
                 formControlName="title"
                 placeholder="Title"
-                [ngClass]="{'invalid-form-input': title.errors}" />
+                [ngClass]="{'invalid-form-input': titleHaveErrors()}" />
             <div class="invalid-form-explain"
-                *ngIf="title.errors?.required || title.errors?.justWhitespace">
+                *ngIf="mustShowTitleRequiredError()">
                 Title is required.
             </div>
 
@@ -35,14 +35,18 @@
                 class="form-control"
                 placeholder="End"
                 type="datetime-local"
-                [ngClass]="{'invalid-form-input': end.errors}" />
+                [ngClass]="{'invalid-form-input': endHaveErrors()}" />
             <div class="invalid-form-explain"
-                *ngIf="end.errors?.required">
+                *ngIf="mustShowEndRequiredError()">
                 Task end is required.
             </div>
             <div class="invalid-form-explain"
-                *ngIf="end.errors?.dateInThePast">
+                *ngIf="mustShowEndDateInThePastError()">
                 Task end can't be in the past.
+            </div>
+            <div class="invalid-form-explain"
+                *ngIf="mustShowEndDateIsAbsurdError()">
+                Task end can't be further than 31/12/9999 23:59:59.
             </div>
         </div>
 
