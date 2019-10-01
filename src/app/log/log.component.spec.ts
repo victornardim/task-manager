@@ -18,14 +18,16 @@ describe('LogComponent', () => {
                 NgbModule
             ]
         }).compileComponents();
+    }));
 
+    beforeEach(() => {
         fixture = TestBed.createComponent(LogComponent);
         app = fixture.debugElement.componentInstance;
 
         spyOn(app.logService, 'getLogsSubject').and.returnValue(of(getLogs()));
 
         app.ngOnInit();
-    }));
+    });
 
     function getLogs(): Log[] {
         return [

@@ -14,7 +14,6 @@ import { dateIsAbsurdValidator } from '../shared/validators/date-is-absurd.valid
 })
 export class ManagerComponent implements OnInit, OnDestroy {
     taskForm: FormGroup;
-    tasksForm: FormGroup;
 
     tasks: Task[];
     tasksSubscription: Subscription;
@@ -44,9 +43,7 @@ export class ManagerComponent implements OnInit, OnDestroy {
         this.taskForm = this.formBuilder.group({
             'title': [null, [Validators.required, justWhitespaceValidator]],
             'description': [null],
-            'start': [new Date(), [Validators.required]],
-            'end': [null, [Validators.required, dateInThePastValidator, dateIsAbsurdValidator]],
-            'progress': [0]
+            'end': [null, [Validators.required, dateInThePastValidator, dateIsAbsurdValidator]]
         });
     }
 
@@ -62,18 +59,11 @@ export class ManagerComponent implements OnInit, OnDestroy {
         try {
             this.managerFacade.createTask(this.getTaskFromForm());
             this.closeTaskCreateForm();
-            this.taskFormReset();
+            this.taskForm.reset();
         } catch (ex) {
             // This catch statement is empty beacuse the exception is 
             // thrown to this layer just to prevent the modal from closing
         }
-    }
-
-    private taskFormReset() {
-        this.taskForm.controls.title.reset();
-        this.taskForm.controls.description.reset();
-        this.taskForm.controls.start.setValue(new Date());
-        this.taskForm.controls.end.reset();
     }
 
     private getTaskFromForm(): Task {
@@ -81,7 +71,7 @@ export class ManagerComponent implements OnInit, OnDestroy {
     }
 
     openTaskCreateForm(content) {
-        this.taskFormReset();
+        this.taskForm.reset();
         this.modalService.open(content);
     }
 

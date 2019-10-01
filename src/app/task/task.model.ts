@@ -1,9 +1,16 @@
-export class Task {
+import { ITask } from './task.interface';
+
+export class Task implements ITask {
     title: string;
     description: string;
     start: Date;
     end: Date;
     progress: number;
+
+    constructor() {
+        this.start = new Date();
+        this.progress = 0;
+    }
 
     doProgress() {
         const now = new Date();
@@ -44,6 +51,10 @@ export class Task {
 
         if (this.end < now) {
             throw new Error('Task end can\'t be in the past.');
+        }
+
+        if (this.end > new Date('9999-12-31 23:59:59')) {
+            throw new Error('Task end can\'t be further than 31/12/9999 23:59:59.');
         }
     }
 }

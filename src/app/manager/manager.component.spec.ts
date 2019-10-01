@@ -21,7 +21,9 @@ describe('ManagerComponent', () => {
                 ReactiveFormsModule
             ]
         }).compileComponents();
+    }));
 
+    beforeEach(() => {
         jasmine.clock().mockDate(new Date('2019-09-28 01:00:00'));
 
         fixture = TestBed.createComponent(ManagerComponent);
@@ -31,7 +33,7 @@ describe('ManagerComponent', () => {
         spyOn(app.managerFacade, 'init');
 
         app.ngOnInit();
-    }));
+    });
 
     function getTasks(): Task[] {
         const tasks = [];
@@ -63,9 +65,7 @@ describe('ManagerComponent', () => {
         const task = {
             'title': 'New task',
             'description': '',
-            'start': new Date('2019-09-28 01:30:00'),
             'end': '2019-09-28 06:00:00',
-            'progress': 0
         };
 
         spyOn(app.managerFacade, 'createTask').and.callFake(function () {
@@ -78,33 +78,11 @@ describe('ManagerComponent', () => {
         expect(app.tasks.length).toEqual(3);
     });
 
-    it('should reset form', () => {
-        const task = {
-            'title': 'New task',
-            'description': '',
-            'start': new Date('2019-09-28 01:30:00'),
-            'end': '2019-09-28 06:00:00',
-            'progress': 0
-        };
-
-        app.taskForm.setValue(task);
-        app.taskFormReset();
-        expect(app.taskForm.value).toEqual({
-            'title': null,
-            'description': null,
-            'start': new Date('2019-09-28 01:00:00'),
-            'end': null,
-            'progress': 0
-        });
-    });
-
     it('should complete task when confirm dialog', () => {
         const task = {
             'title': 'First task',
             'description': 'This is a simple task',
-            'start': new Date('2019-09-28 01:00:00'),
             'end': '2019-09-28 05:00:00',
-            'progress': 0
         };
 
         spyOn(window, 'confirm').and.returnValue(true);
@@ -120,9 +98,7 @@ describe('ManagerComponent', () => {
         const task = {
             'title': 'First task',
             'description': 'This is a simple task',
-            'start': new Date('2019-09-28 01:00:00'),
             'end': '2019-09-28 05:00:00',
-            'progress': 0
         };
 
         spyOn(window, 'confirm').and.returnValue(false);
@@ -135,9 +111,7 @@ describe('ManagerComponent', () => {
         const task = {
             'title': 'First task',
             'description': 'This is a simple task',
-            'start': new Date('2019-09-28 01:00:00'),
             'end': '2019-09-28 05:00:00',
-            'progress': 0
         };
 
         spyOn(window, 'confirm').and.returnValue(true);
@@ -153,9 +127,7 @@ describe('ManagerComponent', () => {
         const task = {
             'title': 'First task',
             'description': 'This is a simple task',
-            'start': new Date('2019-09-28 01:00:00'),
             'end': '2019-09-28 05:00:00',
-            'progress': 0
         };
 
         spyOn(window, 'confirm').and.returnValue(false);

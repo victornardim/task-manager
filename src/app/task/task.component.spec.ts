@@ -16,13 +16,15 @@ describe('TaskComponent', () => {
                 NgbModule
             ]
         }).compileComponents();
+    }));
 
+    beforeEach(() => {
         jasmine.clock().mockDate(new Date('2019-09-28 01:00:00'));
 
         fixture = TestBed.createComponent(TaskComponent);
         app = fixture.debugElement.componentInstance;
         app.task = getTask();
-    }));
+    });
 
     function getTask(): Task {
         const task = new Task();
@@ -63,6 +65,13 @@ describe('TaskComponent', () => {
         expect(function () {
             app.task.validate()
         }).toThrow(new Error('Task end can\'t be in the past.'));
+    });
+
+    it('should not validate task because end is absurd', () => {
+        app.task.end = new Date('10000-01-01 00:00:00');
+        expect(function () {
+            app.task.validate()
+        }).toThrow(new Error('Task end can\'t be further than 31/12/9999 23:59:59.'));
     });
 
     it('should do progress', () => {

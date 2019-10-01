@@ -10,13 +10,6 @@ import { of } from 'rxjs';
 describe('ManagerFacade', () => {
     let facade = null;
 
-    beforeAll(() => {
-        facade = new ManagerFacade(new LogService(), new DatabaseService());
-
-        spyOn(facade.databaseService, 'init').and.returnValue(of(null));
-        spyOn(facade.databaseService, 'loadAll').and.returnValue(of(getTasks()));
-    });
-
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             declarations: [
@@ -25,9 +18,19 @@ describe('ManagerFacade', () => {
                 NgbModule
             ]
         }).compileComponents();
+    }));
+
+    beforeEach(() => {
+        jasmine.clock().mockDate(new Date('2019-09-28 01:00:00'));
+
+        facade = new ManagerFacade(new LogService(), new DatabaseService());
+
+        spyOn(facade.databaseService, 'init').and.returnValue(of(null));
+        spyOn(facade.databaseService, 'loadAll').and.returnValue(of(getTasks()));
+        spyOn(facade, 'startMonitoringProgress');
 
         facade.init();
-    }));
+    })
 
     function getTasks(): Task[] {
         const tasks = [];

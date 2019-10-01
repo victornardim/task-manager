@@ -21,7 +21,6 @@ export class ManagerFacade {
         private databaseService: DatabaseService) { }
 
     init() {
-        this.databaseService.init();
         this.databaseReady = false;
 
         this.tasks = [];
