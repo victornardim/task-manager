@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Task } from '../task/task.model';
 import { Subject, timer, Subscription } from 'rxjs';
 import { LogService } from '../log/log.service';
-import { DatabaseService } from '../shared/services/database.service';
+import { DatabaseService } from '../../core/services/database.service';
 import { TaskRemoveOperation } from './task-remove-operation.enum';
 
 @Injectable({

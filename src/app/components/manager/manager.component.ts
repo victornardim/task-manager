@@ -4,9 +4,9 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ManagerFacade } from './manager.facade';
 import { Task } from '../task/task.model';
 import { Subscription } from 'rxjs';
-import { dateInThePastValidator } from '../shared/validators/date-in-the-past.validator';
-import { justWhitespaceValidator } from '../shared/validators/just-whitespace.validator';
-import { dateIsAbsurdValidator } from '../shared/validators/date-is-absurd.validator';
+import { dateInThePastValidator } from '../../shared/validators/date-in-the-past.validator';
+import { justWhitespaceValidator } from '../../shared/validators/just-whitespace.validator';
+import { dateIsAbsurdValidator } from '../../shared/validators/date-is-absurd.validator';
 
 @Component({
     selector: 'tm-manager',

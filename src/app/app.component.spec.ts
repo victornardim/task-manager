@@ -1,8 +1,8 @@
 import { TestBed, async } from '@angular/core/testing';
 import { AppComponent } from './app.component';
-import { LogComponent } from './log/log.component';
-import { TaskComponent } from './task/task.component';
-import { ManagerComponent } from './manager/manager.component';
+import { LogComponent } from './components/log/log.component';
+import { TaskComponent } from './components/task/task.component';
+import { ManagerComponent } from './components/manager/manager.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ReactiveFormsModule } from '@angular/forms';
 

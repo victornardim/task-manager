@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Task } from 'src/app/task/task.model';
+import { Task } from 'src/app/components/task/task.model';
 import { from, Observable } from 'rxjs';
 
 const DATABASE_NAME = 'task_manager';
