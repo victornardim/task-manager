@@ -30,14 +30,14 @@ describe('ManagerFacade', () => {
         spyOn(facade, 'startMonitoringProgress');
 
         facade.init();
-    })
+    });
 
     function getTasks(): Task[] {
         const tasks = [];
 
         const task1 = new Task();
         task1.title = 'First task';
-        task1.description = 'This is a simple task'
+        task1.description = 'This is a simple task';
         task1.start = new Date('2019-09-28 01:00:00');
         task1.end = new Date('2019-09-28 05:00:00');
         task1.progress = 0;
@@ -45,7 +45,7 @@ describe('ManagerFacade', () => {
 
         const task2 = new Task();
         task2.title = 'Second task';
-        task2.description = 'This is a simple task'
+        task2.description = 'This is a simple task';
         task2.start = new Date('2019-09-28 01:00:00');
         task2.end = new Date('2019-09-28 10:00:00');
         task2.progress = 0;
@@ -60,11 +60,11 @@ describe('ManagerFacade', () => {
 
     it('should create task', () => {
         const task = {
-            'title': 'New task',
-            'description': '',
-            'start': new Date('2019-09-28 01:30:00'),
-            'end': '2019-09-28 06:00:00',
-            'progress': 0
+            title: 'New task',
+            description: '',
+            start: new Date('2019-09-28 01:30:00'),
+            end: '2019-09-28 06:00:00',
+            progress: 0
         };
 
         spyOn(facade.databaseService, 'insert').and.returnValue(of(null));
@@ -76,11 +76,11 @@ describe('ManagerFacade', () => {
 
     it('should not create task when database isn\'t ready', () => {
         const task = {
-            'title': 'New task',
-            'description': '',
-            'start': new Date('2019-09-28 01:30:00'),
-            'end': '2019-09-28 06:00:00',
-            'progress': 0
+            title: 'New task',
+            description: '',
+            start: new Date('2019-09-28 01:30:00'),
+            end: '2019-09-28 06:00:00',
+            progress: 0
         };
 
         spyOn(facade.logService, 'error').and.callFake(message => {
@@ -95,11 +95,11 @@ describe('ManagerFacade', () => {
 
     it('should complete task', () => {
         const task = {
-            'title': 'First task',
-            'description': 'This is a simple task',
-            'start': new Date('2019-09-28 01:00:00'),
-            'end': new Date('2019-09-28 05:00:00'),
-            'progress': 0
+            title: 'First task',
+            description: 'This is a simple task',
+            start: new Date('2019-09-28 01:00:00'),
+            end: new Date('2019-09-28 05:00:00'),
+            progress: 0
         };
 
         spyOn(facade.databaseService, 'delete').and.returnValue(of(null));
@@ -113,11 +113,11 @@ describe('ManagerFacade', () => {
 
     it('should not complete task when database isn\'t ready', () => {
         const task = {
-            'title': 'First task',
-            'description': 'This is a simple task',
-            'start': new Date('2019-09-28 01:00:00'),
-            'end': new Date('2019-09-28 05:00:00'),
-            'progress': 0
+            title: 'First task',
+            description: 'This is a simple task',
+            start: new Date('2019-09-28 01:00:00'),
+            end: new Date('2019-09-28 05:00:00'),
+            progress: 0
         };
 
         spyOn(facade.logService, 'error').and.callFake(message => {
@@ -132,11 +132,11 @@ describe('ManagerFacade', () => {
 
     it('should cancel task', () => {
         const task = {
-            'title': 'First task',
-            'description': 'This is a simple task',
-            'start': new Date('2019-09-28 01:00:00'),
-            'end': new Date('2019-09-28 05:00:00'),
-            'progress': 0
+            title: 'First task',
+            description: 'This is a simple task',
+            start: new Date('2019-09-28 01:00:00'),
+            end: new Date('2019-09-28 05:00:00'),
+            progress: 0
         };
 
         spyOn(facade.databaseService, 'delete').and.returnValue(of(null));
@@ -150,11 +150,11 @@ describe('ManagerFacade', () => {
 
     it('should not cancel task when database database isn\'t ready', () => {
         const task = {
-            'title': 'First task',
-            'description': 'This is a simple task',
-            'start': new Date('2019-09-28 01:00:00'),
-            'end': new Date('2019-09-28 05:00:00'),
-            'progress': 0
+            title: 'First task',
+            description: 'This is a simple task',
+            start: new Date('2019-09-28 01:00:00'),
+            end: new Date('2019-09-28 05:00:00'),
+            progress: 0
         };
 
         spyOn(facade.logService, 'error').and.callFake(message => {

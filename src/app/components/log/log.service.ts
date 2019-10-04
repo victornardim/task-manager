@@ -4,7 +4,7 @@ import { LogType } from './log.enum';
 import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
-    'providedIn': 'root'
+    providedIn: 'root'
 })
 export class LogService {
     logs: Log[] = [];
@@ -12,9 +12,9 @@ export class LogService {
 
     error(message: string) {
         const log = {
-            'message': message,
-            'time': new Date(),
-            'type': LogType.DANGER
+            message,
+            time: new Date(),
+            type: LogType.DANGER
         } as Log;
 
         this.logs.push(log);
@@ -23,9 +23,9 @@ export class LogService {
 
     success(message: string) {
         const log = {
-            'message': message,
-            'time': new Date(),
-            'type': LogType.SUCCESS
+            message,
+            time: new Date(),
+            type: LogType.SUCCESS
         } as Log;
 
         this.logs.push(log);

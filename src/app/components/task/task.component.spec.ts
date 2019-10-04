@@ -48,29 +48,29 @@ describe('TaskComponent', () => {
 
     it('should not validate task because title is empty', () => {
         app.task.title = '';
-        expect(function () {
-            app.task.validate()
+        expect(() => {
+            app.task.validate();
         }).toThrow(new Error('Title is required.'));
     });
 
     it('should not validate task because end is empty', () => {
         app.task.end = '';
-        expect(function () {
-            app.task.validate()
+        expect(() => {
+            app.task.validate();
         }).toThrow(new Error('Task end is required.'));
     });
 
     it('should not validate task because end is in the past', () => {
         app.task.end = new Date('2019-09-28 00:00:00');
-        expect(function () {
-            app.task.validate()
+        expect(() => {
+            app.task.validate();
         }).toThrow(new Error('Task end can\'t be in the past.'));
     });
 
     it('should not validate task because end is absurd', () => {
         app.task.end = new Date('10000-01-01 00:00:00');
-        expect(function () {
-            app.task.validate()
+        expect(() => {
+            app.task.validate();
         }).toThrow(new Error('Task end can\'t be further than 31/12/9999 23:59:59.'));
     });
 

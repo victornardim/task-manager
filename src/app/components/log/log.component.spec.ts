@@ -32,14 +32,14 @@ describe('LogComponent', () => {
     function getLogs(): Log[] {
         return [
             {
-                'message': 'Simple log message',
-                'time': new Date('2019-09-28 01:00:00'),
-                'type': LogType.INFO
+                message: 'Simple log message',
+                time: new Date('2019-09-28 01:00:00'),
+                type: LogType.INFO
             },
             {
-                'message': 'Error',
-                'time': new Date('2019-09-28 02:00:00'),
-                'type': LogType.DANGER
+                message: 'Error',
+                time: new Date('2019-09-28 02:00:00'),
+                type: LogType.DANGER
             }] as Log[];
     }
 
@@ -49,9 +49,9 @@ describe('LogComponent', () => {
 
     it('should close one log', () => {
         app.close({
-            'message': 'Simple log message',
-            'time': new Date('2019-09-28 01:00:00'),
-            'type': LogType.INFO
+            message: 'Simple log message',
+            time: new Date('2019-09-28 01:00:00'),
+            type: LogType.INFO
         });
         expect(app.logs.length).toEqual(1);
     });

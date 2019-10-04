@@ -40,7 +40,7 @@ describe('ManagerComponent', () => {
 
         const task1 = new Task();
         task1.title = 'Firtst task';
-        task1.description = 'This is a simple task'
+        task1.description = 'This is a simple task';
         task1.start = new Date('2019-09-28 01:00:00');
         task1.start = new Date('2019-09-28 05:00:00');
         task1.progress = 0;
@@ -48,7 +48,7 @@ describe('ManagerComponent', () => {
 
         const task2 = new Task();
         task2.title = 'Second task';
-        task2.description = 'This is a simple task'
+        task2.description = 'This is a simple task';
         task2.start = new Date('2019-09-28 01:00:00');
         task2.start = new Date('2019-09-28 10:00:00');
         task2.progress = 0;
@@ -63,12 +63,12 @@ describe('ManagerComponent', () => {
 
     it('should add task', () => {
         const task = {
-            'title': 'New task',
-            'description': '',
-            'end': '2019-09-28 06:00:00',
+            title: 'New task',
+            description: '',
+            end: '2019-09-28 06:00:00',
         };
 
-        spyOn(app.managerFacade, 'createTask').and.callFake(function () {
+        spyOn(app.managerFacade, 'createTask').and.callFake(() => {
             const newTask = Object.assign(new Task(), task);
             app.tasks.push(newTask);
         });
@@ -80,13 +80,13 @@ describe('ManagerComponent', () => {
 
     it('should complete task when confirm dialog', () => {
         const task = {
-            'title': 'First task',
-            'description': 'This is a simple task',
-            'end': '2019-09-28 05:00:00',
+            title: 'First task',
+            description: 'This is a simple task',
+            end: '2019-09-28 05:00:00',
         };
 
         spyOn(window, 'confirm').and.returnValue(true);
-        spyOn(app.managerFacade, 'completeTask').and.callFake(function () {
+        spyOn(app.managerFacade, 'completeTask').and.callFake(() => {
             app.tasks.splice(app.tasks.indexOf(task), 1);
         });
 
@@ -96,9 +96,9 @@ describe('ManagerComponent', () => {
 
     it('should not complete task when cancel dialog', () => {
         const task = {
-            'title': 'First task',
-            'description': 'This is a simple task',
-            'end': '2019-09-28 05:00:00',
+            title: 'First task',
+            description: 'This is a simple task',
+            end: '2019-09-28 05:00:00',
         };
 
         spyOn(window, 'confirm').and.returnValue(false);
@@ -109,13 +109,13 @@ describe('ManagerComponent', () => {
 
     it('should cancel task when confirm dialog', () => {
         const task = {
-            'title': 'First task',
-            'description': 'This is a simple task',
-            'end': '2019-09-28 05:00:00',
+            title: 'First task',
+            description: 'This is a simple task',
+            end: '2019-09-28 05:00:00',
         };
 
         spyOn(window, 'confirm').and.returnValue(true);
-        spyOn(app.managerFacade, 'cancelTask').and.callFake(function () {
+        spyOn(app.managerFacade, 'cancelTask').and.callFake(() => {
             app.tasks.splice(app.tasks.indexOf(task), 1);
         });
 
@@ -125,9 +125,9 @@ describe('ManagerComponent', () => {
 
     it('should not cancel task when cancel dialog', () => {
         const task = {
-            'title': 'First task',
-            'description': 'This is a simple task',
-            'end': '2019-09-28 05:00:00',
+            title: 'First task',
+            description: 'This is a simple task',
+            end: '2019-09-28 05:00:00',
         };
 
         spyOn(window, 'confirm').and.returnValue(false);

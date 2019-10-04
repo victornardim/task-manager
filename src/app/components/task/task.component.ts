@@ -2,8 +2,8 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { Task } from './task.model';
 
 @Component({
-    'selector': 'tm-task',
-    'templateUrl': './task.component.html'
+    selector: 'tm-task',
+    templateUrl: './task.component.html'
 })
 export class TaskComponent {
     @Input() task: Task;

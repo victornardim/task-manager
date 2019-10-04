@@ -6,7 +6,7 @@ import { DatabaseService } from '../../core/services/database.service';
 import { TaskRemoveOperation } from './task-remove-operation.enum';
 
 @Injectable({
-    'providedIn': 'root'
+    providedIn: 'root'
 })
 export class ManagerFacade {
     private tasks: Task[];

@@ -7,7 +7,7 @@ const DATABASE_VERSION = 1;
 const OBJECT_STORE_NAME = 'tasks';
 
 @Injectable({
-    'providedIn': 'root'
+    providedIn: 'root'
 })
 export class DatabaseService {
     request: IDBOpenDBRequest;
@@ -20,46 +20,46 @@ export class DatabaseService {
 
         return from(new Promise((resolve, reject) => {
             this.request = indexedDB.open(DATABASE_NAME, DATABASE_VERSION);
-            this.request.onerror = function () {
+            this.request.onerror = function() {
                 reject(this.error.message);
             };
 
-            this.request.onupgradeneeded = function () {
+            this.request.onupgradeneeded = function() {
                 self.createDatabase(this);
                 self.database = this.result;
-            }
+            };
 
-            this.request.onsuccess = function () {
+            this.request.onsuccess = function() {
                 self.database = this.result;
                 resolve(null);
-            }
+            };
         }));
     }
 
     private createDatabase(database: IDBOpenDBRequest) {
         const objectStore = database.result.createObjectStore(OBJECT_STORE_NAME, { keyPath: 'start' });
-        objectStore.createIndex("start", "start", { unique: true });
-        objectStore.createIndex("end", "end", { unique: false });
+        objectStore.createIndex('start', 'start', { unique: true });
+        objectStore.createIndex('end', 'end', { unique: false });
     }
 
     insert(task: Task) {
         return from(new Promise((resolve, reject) => {
             const transaction = this.database.transaction([OBJECT_STORE_NAME], 'readwrite');
 
-            transaction.onerror = function () {
+            transaction.onerror = function() {
                 reject(this.error.message);
-            }
+            };
 
             const objectStore = transaction.objectStore(OBJECT_STORE_NAME);
             const request = objectStore.add(task);
 
-            request.onsuccess = function () {
+            request.onsuccess = () => {
                 resolve(null);
-            }
+            };
 
-            request.onerror = function () {
+            request.onerror = function() {
                 reject(this.error.message);
-            }
+            };
         }));
     }
 
@@ -67,20 +67,20 @@ export class DatabaseService {
         return from(new Promise((resolve, reject) => {
             const transaction = this.database.transaction([OBJECT_STORE_NAME]);
 
-            transaction.onerror = function () {
+            transaction.onerror = function() {
                 reject(this.error.message);
-            }
+            };
 
             const objectStore = transaction.objectStore(OBJECT_STORE_NAME);
             const request = objectStore.getAll();
 
-            request.onsuccess = function () {
+            request.onsuccess = function() {
                 resolve(this.result);
-            }
+            };
 
-            request.onerror = function () {
+            request.onerror = function() {
                 reject(this.error.message);
-            }
+            };
         }));
     }
 
@@ -88,20 +88,20 @@ export class DatabaseService {
         return from(new Promise((resolve, reject) => {
             const transaction = this.database.transaction([OBJECT_STORE_NAME], 'readwrite');
 
-            transaction.onerror = function () {
+            transaction.onerror = function() {
                 reject(this.error.message);
-            }
+            };
 
             const objectStore = transaction.objectStore(OBJECT_STORE_NAME);
             const request = objectStore.delete(task.start);
 
-            request.onsuccess = function () {
+            request.onsuccess = () => {
                 resolve(null);
-            }
+            };
 
-            request.onerror = function () {
+            request.onerror = function() {
                 reject(this.error.message);
-            }
+            };
         }));
     }
 }

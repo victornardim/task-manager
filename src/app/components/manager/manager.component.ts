@@ -41,9 +41,9 @@ export class ManagerComponent implements OnInit, OnDestroy {
 
     formInit() {
         this.taskForm = this.formBuilder.group({
-            'title': [null, [Validators.required, justWhitespaceValidator]],
-            'description': [null],
-            'end': [null, [Validators.required, dateInThePastValidator, dateIsAbsurdValidator]]
+            title: [null, [Validators.required, justWhitespaceValidator]],
+            description: [null],
+            end: [null, [Validators.required, dateInThePastValidator, dateIsAbsurdValidator]]
         });
     }
 
@@ -61,7 +61,7 @@ export class ManagerComponent implements OnInit, OnDestroy {
             this.closeTaskCreateForm();
             this.taskForm.reset();
         } catch (ex) {
-            // This catch statement is empty beacuse the exception is 
+            // This catch statement is empty beacuse the exception is
             // thrown to this layer just to prevent the modal from closing
         }
     }

@@ -4,8 +4,8 @@ import { Subscription } from 'rxjs';
 import { LogService } from './log.service';
 
 @Component({
-    'selector': 'tm-log',
-    'templateUrl': './log.component.html'
+    selector: 'tm-log',
+    templateUrl: './log.component.html'
 })
 export class LogComponent implements OnInit, OnDestroy {
     logs: Log[];
