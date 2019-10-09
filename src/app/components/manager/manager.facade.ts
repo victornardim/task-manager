@@ -114,7 +114,7 @@ export class ManagerFacade {
     private removeTask(task: Task, operation: TaskRemoveOperation) {
         if (this.isDatabaseReady()) {
             const subscription = this.databaseService
-                .delete(Table.TASKS, task)
+                .delete(Table.TASKS, task.start)
                 .subscribe(() => {
                     this.tasks.splice(this.tasks.indexOf(task), 1);
                     this.tasksSubject.next(this.tasks);
