@@ -1,0 +1,23 @@
+{
+    "name": "task_manager",
+    "version": 1,
+    "objectStores": [
+        {
+            "name": "tasks",
+            "keyPath": "start",
+            "autoIncrement": false,
+            "indexes": [
+                {
+                    "name": "start",
+                    "keyPath": "start",
+                    "unique": true
+                },
+                {
+                    "name": "end",
+                    "keyPath": "end",
+                    "unique": false
+                }
+            ]
+        }
+    ]
+}

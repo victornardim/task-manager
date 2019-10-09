@@ -3,8 +3,9 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { Task } from '../task/task.model';
 import { ManagerFacade } from './manager.facade';
 import { LogService } from '../log/log.service';
-import { DatabaseService } from '../../core/services/database.service';
+import { DatabaseService } from '../../core/services/database/database.service';
 import { of } from 'rxjs';
+import { HttpClient, HttpHandler } from '@angular/common/http';
 
 
 describe('ManagerFacade', () => {

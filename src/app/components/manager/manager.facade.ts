@@ -2,8 +2,9 @@ import { Injectable } from '@angular/core';
 import { Task } from '../task/task.model';
 import { Subject, timer, Subscription } from 'rxjs';
 import { LogService } from '../log/log.service';
-import { DatabaseService } from '../../core/services/database.service';
+import { DatabaseService } from '../../core/services/database/database.service';
 import { TaskRemoveOperation } from './task-remove-operation.enum';
+import { Table } from 'src/app/core/services/database/table.enum';
 
 @Injectable({
     providedIn: 'root'
@@ -15,6 +16,7 @@ export class ManagerFacade {
     databaseReady: boolean;
 
     private timerSubscription: Subscription;
+    private databaseInitSubscription: Subscription;
 
     constructor(
         private logService: LogService,
@@ -45,25 +47,32 @@ export class ManagerFacade {
     }
 
     private loadTasks() {
-        this.databaseService
+        this.databaseService.setup(this.databaseService.getDatabaseSetupObject());
+        this.databaseInitSubscription = this.databaseService
             .init()
             .subscribe(() => {
                 this.databaseReady = true;
-                this.databaseService.loadAll()
+                const subscription = this.databaseService.loadAll(Table.TASKS)
                     .subscribe(tasks => {
                         if (tasks) {
                             this.tasks = tasks.map(task => Object.assign(new Task(), task));
                             this.tasksSubject.next(this.tasks);
                         }
                     },
-                        error => this.logService.error(error));
+                        error => this.logService.error(error),
+                        () => this.doUnsubscription(subscription));
             },
                 error => this.logService.error(error));
     }
 
     destroy() {
-        if (this.timerSubscription && !this.timerSubscription.closed) {
-            this.timerSubscription.unsubscribe();
+        this.doUnsubscription(this.timerSubscription);
+        this.doUnsubscription(this.databaseInitSubscription);
+    }
+
+    doUnsubscription(subscription: Subscription) {
+        if (subscription && !subscription.closed) {
+            subscription.unsubscribe();
         }
     }
 
@@ -75,13 +84,14 @@ export class ManagerFacade {
             newTask.validate();
 
             if (this.isDatabaseReady()) {
-                this.databaseService
-                    .insert(newTask)
+                const subscription = this.databaseService
+                    .insert(Table.TASKS, newTask)
                     .subscribe(() => {
                         this.tasks.push(newTask);
                         this.tasksSubject.next(this.tasks);
                     },
-                        error => this.logService.error(error));
+                        error => this.logService.error(error),
+                        () => this.doUnsubscription(subscription));
             }
         } catch (ex) {
             this.logService.error(ex.message);
@@ -103,14 +113,15 @@ export class ManagerFacade {
 
     private removeTask(task: Task, operation: TaskRemoveOperation) {
         if (this.isDatabaseReady()) {
-            this.databaseService
-                .delete(task)
+            const subscription = this.databaseService
+                .delete(Table.TASKS, task)
                 .subscribe(() => {
                     this.tasks.splice(this.tasks.indexOf(task), 1);
                     this.tasksSubject.next(this.tasks);
                     this.logRemoveTask(task, operation);
                 },
-                    error => this.logService.error(error));
+                    error => this.logService.error(error),
+                    () => this.doUnsubscription(subscription));
         }
     }
 
