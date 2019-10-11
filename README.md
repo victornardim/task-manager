@@ -1,27 +1,40 @@
-# TaskManager
+# Task Manager
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.3.8.
+This project was developed to study Angular software archtecture.
 
-## Development server
+The archtecture is divided into some parts:
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+## Vertical design
 
-## Code scaffolding
+The vertical design consists in a layer-level division.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+We have three layers on this project:
 
-## Build
+- Core
+    - Holds all the calls to the external world and some APIs, like database access, state management, external APIs and so on.
+    
+- Facade
+    - It's the layer that holds all the business logic and conects the core to the presentational layer. Must translate the data that comes from the external world through the core layer to be understandable by the presentational layer.
+    - This layer prevents the coupling, by being an adapter to the others. If you want to change de business logic, core and presentational layers will not be affected.
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+- Presentational (components)
+    - Just presents data and send the requests (events) to the facade layer.
 
-## Running unit tests
+## Horizontal design
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+The horizontal design consists in a feature-level division.
 
-## Running end-to-end tests
+This project just have the task manager, but let's supose that we have a other features.
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+Some resources like database must be shared, so we have to communicate horizontally, through the business logic layer (facade).
 
-## Further help
+Just facades can communicate through each other, core and presentation are forbidden, because it would hurt the low coupling archtecture. The facade is the adapter layer, so only it can communicate horizontaly.
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+## Request/data flow
+
+The request/data flow follow this simple rule: request go up, data go down.
+
+The presentational layer fire an event to the facade, that ocasionally calls an API.
+The data returned by the API is passed to the facade, that will translate the data and then pass it to the presentational, that will show it.
+
+For consistency the data just can be modified in the facade layer.
